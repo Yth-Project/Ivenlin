@@ -1,0 +1,172 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './element-variables.scss';
+@import './color.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.el-input input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px rgb(211, 21, 15) inset !important;
+  -webkit-text-fill-color: white;
+  position: fixed;
+}
+
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+// main-container global css
+.app-container {
+  padding: 20px;
+}
+.app-container-table{
+  height:70vh;
+  .app-warpper{
+    height:100%;
+    .app-main{
+      height:100%;
+    }
+  }
+}
+
+.app-warpper{
+  .app-header{
+    margin: 20px 0;
+  }
+
+}
+
+.center {
+  text-align: center;
+}
+.right{
+  text-align: right;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+.flex-box{
+  display: flex;
+  &--column-center{
+    align-items: center;
+  }
+}
+.flex-item{
+  flex: 1;
+}
+.flex-item--column-center{
+  align-self: center;
+}
+
+.color{
+  &-red{
+    color: #F56C6C
+  }
+  &-green{
+    color: #67C23A
+  }
+  &-info{
+    color: #909399
+  }
+  &-blue{
+    color: #409EFF
+  }
+}
+.font{
+  &-mini{
+    font-size: 12px;;
+  }
+  &-small{
+    font-size: 14px;
+  }
+  &-hover{
+    &--bottom
+    {
+      &-line:hover{
+        border-bottom: 1px #fff000 solid;
+      }
+    }
+  }
+}
+
+.full-width{
+  width: 100%;
+}
+
+.full-height{
+  min-height: 100vh;
+  &--container{
+    min-height: calc(100vh - 84px);
+  }
+  &--warpper{
+    // 减40 因为container有padding 上下边距+起来有40 
+    min-height: calc(100vh - 84px - 40px - 60px);
+  }
+}
+.right{
+  text-align: right;
+}
+
+/**
+  隐藏滚动条  *-所有
+*/
+// chrome 和Safari
+// *::-webkit-scrollbar { width: 0 !important }
+// IE 10+
+// *{ -ms-overflow-style: none; }
+// Firefox
+// *{ overflow: -moz-scrollbars-none; }
