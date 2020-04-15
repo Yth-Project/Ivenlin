@@ -6,7 +6,6 @@ export function getRoutes(data) {
     method: 'post',
     params: {
       token: data.token
-      
     }
   })
 }

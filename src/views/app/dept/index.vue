@@ -56,8 +56,6 @@
           >
           <el-switch
             v-model="value1"
-            active-value="100"
-            inactive-value="0"
             @click="handleSwitch(1, row)">
           </el-switch>
         </el-table-column>
@@ -178,7 +176,7 @@ export default {
   data() {
     return {
       select: '',
-      value1: 100,
+      value1: true,
       dialogFormVisible: false,
       form: {
         id: null,
@@ -266,7 +264,7 @@ export default {
     },
     handleSwitch(type = 0, row) {
 
-    }
+    },
 
 
     /**

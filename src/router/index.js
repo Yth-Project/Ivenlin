@@ -52,7 +52,7 @@ export const StaticRouterMap = [
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: {
-        title: '物料订单管理',
+        title: '物料采购订单管理',
         icon: 'dashboard',
         affix: true
       }
