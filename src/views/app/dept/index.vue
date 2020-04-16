@@ -266,7 +266,7 @@ export default {
     },
     handleSwitch(type = 0, row) {
 
-    }
+    },
 
 
     /**

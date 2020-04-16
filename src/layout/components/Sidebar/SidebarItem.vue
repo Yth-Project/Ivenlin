@@ -1,15 +1,20 @@
 <template>
   <div v-if="!item.hidden" class="menu-wrapper">
+    <!-- <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
+      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
+          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+        </el-menu-item>
+      </app-link>
+    </template> -->
     <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <!-- <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title+'1'" /> -->
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="listName.title" />
+          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
     </template>
-
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+    <!-- <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
@@ -21,7 +26,7 @@
         :base-path="resolvePath(child.path)"
         class="nest-menu"
       />
-    </el-submenu>
+    </el-submenu> -->
   </div>
 </template>
 
@@ -31,6 +36,7 @@ import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+
 
 export default {
   name: 'SidebarItem',
@@ -55,34 +61,20 @@ export default {
     // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
     // TODO: refactor with render function
     this.onlyOneChild = null
-    // child=""
-    this.sel = ''
-    this.listName = ''
     return {}
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      console.log(parent)
       const showingChildren = children.filter(item => {
-        console.log(item+"sdsef")
         if (item.hidden) {
           return false
         } else {
-         
           // Temp set(will be used if only has one showing child)
-          let listName = [ {title: "物料订单管理1"}, {title: "物料订单管理2"},]
-           
           this.onlyOneChild = item
-          // this.onlyOneChild = aaaa
-          // console.log('onlyOneChild'+this.onlyOneChild+'1111111');
-          console.log(this.onlyOneChild);
-          listName.forEach((item,index) =>{
-            console.log()
-            this.sel = item.title
-          });
           return true
-        } 
+        }
       })
+
       // When there is only one child router, the child router is displayed by default
       if (showingChildren.length === 1) {
         return true
@@ -92,7 +84,6 @@ export default {
       if (showingChildren.length === 0) {
         this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         return true
-        console.log('item'+this.onlyOneChild);
       }
 
       return false

@@ -161,7 +161,7 @@ export default {
     },
     /**
      * @param obj 要重置的object
-     */
+     **/
     resultObj(Obj) {
       for (const key in Obj) {
         Obj[key] = null

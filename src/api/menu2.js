@@ -1,0 +1,76 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+
+Vue.use(Router)
+
+export default new Router({
+    routes:[
+        {
+        id:1,
+        path:'/',
+        name:'wlOrder',
+        meta:{
+            title:'物料订单管理',
+            icon:''
+        },
+        children:[
+            {
+            id:2,
+            path:'/dept',
+            name:'wlProject',
+            meta:{
+                title:'物料项目管理',
+                icon:''
+            }
+            },
+            {
+            id:3,
+            path:'/test/3',
+            name:'wlSupplier',
+            meta:{
+                title:'物料供应商管理',
+                icon:''
+            }
+            },
+        ]
+        },
+        {
+        id:4,
+        path:'/',
+        name:'userOrder',
+        meta:{
+            title:'用户订单管理',
+            icon:''
+        },
+        children:[
+            {
+            id:5,
+            path:'/dept',
+            name:'unshipped',
+            meta:{
+                title:'未发货订单',
+                icon:''
+            }
+            },
+            {
+            id:6,
+            path:'/test/3',
+            name:'Shipped',
+            meta:{
+                title:'已发货订单',
+                icon:''
+            }
+            },
+        ]
+        },
+        {
+        id:7,
+        path:'/test/3',
+        name:'userData',
+        meta:{
+            title:'用户资料管理',
+            icon:''
+        }
+        }
+    ]
+})

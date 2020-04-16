@@ -7,7 +7,7 @@
           class="hamburger-container"
           @toggleClick="toggleSideBar"
         />
-        <breadcrumb class="breadcrumb-container" />
+        <!-- <breadcrumb class="breadcrumb-container" /> -->
       </div>
       <div style="flex:1">
        
@@ -54,12 +54,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
+// import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
   components: {
-    Breadcrumb,
+    // Breadcrumb,
     Hamburger
   },
   computed: {

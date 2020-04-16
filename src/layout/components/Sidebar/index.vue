@@ -1,79 +1,81 @@
 <template>
-  <div :class="{'has-logo':showLogo}" @command="handleSetSize">
-    <logo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :unique-opened="false"
-        :active-text-color="variables.menuActiveText"
-        :collapse-transition="false"
-        mode="vertical"
-      >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
-      </el-menu>
-    </el-scrollbar>
-  </div>
+  <el-breadcrumb class="app-breadcrumb" separator="/">
+    <transition-group name="breadcrumb">
+      <el-breadcrumb-item v-for="(item,index) in levelList" :key="item.path">
+        <span v-if="item.redirect==='noRedirect'||index==levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
+        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+      </el-breadcrumb-item>
+    </transition-group>
+  </el-breadcrumb>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Logo from './Logo'
-import SidebarItem from './SidebarItem'
-import variables from '@/styles/variables.scss'
+import pathToRegexp from 'path-to-regexp'
 
 export default {
-  components: { SidebarItem, Logo },
-  computed: {
-    ...mapGetters([
-      'sidebar'
-    ]),
-    routes() {
-      return this.$router.options.routes
-    },
-    activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
-      // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
-    },
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo
-    },
-    variables() {
-      return variables
-    },
-    isCollapse() {
-      return !this.sidebar.opened
+  data() {
+    return {
+      levelList: null
     }
   },
-  methods:{
-    handleSetSize(size) {
-      this.$ELEMENT.size = size
-      this.$store.dispatch('app/setSize', size)
-      this.refreshView()
-      this.$message({
-        message: 'Switch Size Success',
-        type: 'success'
-      })
+  watch: {
+    $route() {
+      this.getBreadcrumb()
+    }
+  },
+  created() {
+    this.getBreadcrumb()
+  },
+  methods: {
+    getBreadcrumb() {
+      // only show routes with meta.title
+      let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+      const first = matched[0]
+
+      if (!this.isDashboard(first)) {
+        matched = [{ path: '/dashboard', meta: { title: '首页' }}].concat(matched)
+      }
+
+      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     },
-    refreshView() {
-      // In order to make the cached page re-rendered
-      this.$store.dispatch('tagsView/delAllCachedViews', this.$route)
-
-      const { fullPath } = this.$route
-
-      this.$nextTick(() => {
-        this.$router.replace({
-          path: '/redirect' + fullPath
-        })
-      })
+    isDashboard(route) {
+      const name = route && route.name
+      if (!name) {
+        return false
+      }
+      return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+    },
+    pathCompile(path) {
+      // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
+      const { params } = this.$route
+      var toPath = pathToRegexp.compile(path)
+      return toPath(params)
+    },
+    handleLink(item) {
+      console.log('item',item)
+      const { redirect, path } = item
+      console.log('redirect',redirect)
+      console.log('path',path)
+      if (redirect) {
+        this.$router.push(redirect)
+        return
+      }
+      this.$router.push(this.pathCompile(path))
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-breadcrumb.el-breadcrumb {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 50px;
+  margin-left: 8px;
+
+  .no-redirect {
+    color: #97a8be;
+    cursor: text;
+  }
+}
+</style>
